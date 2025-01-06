@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@NoArgsConstructor @AllArgsConstructor
+@NoArgsConstructor @AllArgsConstructor // 기본생성자 관련
 public class RequestJoin {
     private String email;
     private String password;

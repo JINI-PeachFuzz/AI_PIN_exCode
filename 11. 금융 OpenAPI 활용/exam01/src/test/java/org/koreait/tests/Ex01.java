@@ -29,14 +29,14 @@ public class Ex01 {
     @BeforeEach
     void init() {
         om = new ObjectMapper();
-        om.registerModule(new JavaTimeModule());
+        om.registerModule(new JavaTimeModule()); // 자바타임패키지에 대한 변환작업을 할 수 있게 추가함
 
         restTemplate = new RestTemplate();
     }
 
     @Test
     @DisplayName("ObjectMapper - JAVA 객체 <-> JSON 문자열 변환")
-    void test1() throws Exception {
+    void test1() throws Exception { // 테스트의 편의성을 위해 Exception을 던졌음
 
         RequestJoin form = new RequestJoin();
         form.setEmail("user01@test.org");
@@ -47,15 +47,21 @@ public class Ex01 {
         String json = om.writeValueAsString(form); // 자바 객체 -> JSON 문자열
         System.out.println(json);
 
+
         // JSON 문자열 -> 자바 객체 변환
-        RequestJoin form2 = om.readValue(json, RequestJoin.class); // 단일 클래스 형태의 자료형으로 변환 Class 클래스가 매개변수
+        RequestJoin form2 = om.readValue(json, RequestJoin.class); // 단일 클래스 형태의 자료형으로 변환 Class 클래스가 매개변수 // 두번째 매개변수가 클래스클래스형태로 되어있으면 RequestJoin은 클래스객체가 되는거임
         System.out.println("form2 : " + form2);
     }
+    // {"email":"user01@test.org","password":"1234","confirmPassword":"1234","name":"사용자01"}
+    //form2 : RequestJoin(email=user01@test.org, password=1234, confirmPassword=1234, name=사용자01)
+    // 테스트시 이렇게 나왔음
+
+
 
     @Test
     @DisplayName("ObjectMapper - Collection 활용")
     void test2() throws Exception {
-        List<RequestJoin> items = IntStream.rangeClosed(1, 10)
+        List<RequestJoin> items = IntStream.rangeClosed(1, 10) // 1부터 10개 생성
                 .mapToObj(i -> RequestJoin.builder()
                         .email("user" + i + "@test.org")
                         .password("1234")
