@@ -70,10 +70,12 @@ public class Ex01 {
 
         // List -> JSON 문자열
         String json = om.writeValueAsString(items);
-        System.out.println(json);
+        System.out.println(json); // [{"email":"user1@test.org","password":"1234" 이런식으로 대괄호 형태로 담김
 
-        // List<T>, Map<K, V>, Set<...>  -> TypeReference(추상클래스) 객체
-        //List<RequestJoin> items2 = om.readValue(json, new TypeReference<List<RequestJoin>>() {});
+        // List<T>, Map<K, V>, Set<...>  -> TypeReference(추상클래스) 객체형태로 형성함 / 구현체가 없이 넣어도 바뀜 단, TypeReference를 써야함
+
+        //List<RequestJoin> items2 = om.readValue(json, new TypeReference<List<RequestJoin>>() {구현체});
+        // 지네릭타입으로 넣어줌 / 리스트라던지 셋형태를 다시 원래 자바객체로 바꿔줄수 있음
         // -------------------
 
         // JSON 문자열 -> List<T>, Map<K, V>, Set<...> 등등 복합적 Collection 으로 변환 시에는
@@ -82,7 +84,7 @@ public class Ex01 {
         List<RequestJoin> items2 = om.readValue(json, new TypeReference<>() {});
 
         items2.forEach(System.out::println);
-    }
+    } // RequestJoin(email=user1@test.org, password=1234, confirmPassword=1234, name=사용자1) 이렇게 나옴
 
     @Test
     @DisplayName("UriComponents")
